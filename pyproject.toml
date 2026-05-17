@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mnist-cursor-demo"
+version = "0.1.0"
+description = "A simple MNIST MLP demo codebase for Cursor."
+requires-python = ">=3.10"
+readme = "README.md"
+dependencies = [
+    "torch",
+    "torchvision",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.scripts]
+mnist-train    = "mnist_mlp.train:main"
+mnist-evaluate = "mnist_mlp.evaluate:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

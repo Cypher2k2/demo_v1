@@ -1,0 +1,8 @@
+# Python ML Demo Rule
+
+- Name metrics explicitly: write `loss=`, `accuracy=`, `lr=` in every print statement.
+- No magic numbers: all hyperparameters must live in `TrainConfig`, not inline.
+- Always print units where relevant (e.g. `lr=0.001`, `accuracy=97.43%`).
+- Checkpoint saves must print the destination path.
+- Prefer `torch.no_grad()` blocks in evaluation — never skip them.
+- Use `argparse` for all CLI args; keep defaults matching `TrainConfig`.
