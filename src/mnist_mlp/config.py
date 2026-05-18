@@ -5,6 +5,7 @@ from dataclasses import dataclass, field
 class TrainConfig:
     # Optimizer
     lr: float = 1e-3
+    weight_decay: float = 0.0
     epochs: int = 5
     batch_size: int = 64
 

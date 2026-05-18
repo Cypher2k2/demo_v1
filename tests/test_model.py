@@ -48,6 +48,7 @@ def test_forward_deterministic(cfg):
 def test_config_defaults(cfg):
     """TrainConfig should expose expected default values."""
     assert cfg.lr == 1e-3
+    assert cfg.weight_decay == 0.0
     assert cfg.epochs == 5
     assert cfg.batch_size == 64
     assert cfg.hidden1 == 256
