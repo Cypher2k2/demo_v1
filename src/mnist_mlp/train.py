@@ -12,6 +12,8 @@ from mnist_mlp.model import MNISTMLP
 def train(cfg: TrainConfig) -> None:
     os.makedirs(cfg.artifact_dir, exist_ok=True)
 
+    torch.manual_seed(cfg.seed)
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"[Train] Device: {device}")
 
@@ -34,7 +36,7 @@ def train(cfg: TrainConfig) -> None:
 
     print(
         f"[Train] Starting training for {cfg.epochs} epoch(s)  "
-        f"lr={cfg.lr}  weight_decay={cfg.weight_decay}  "
+        f"seed={cfg.seed}  lr={cfg.lr}  weight_decay={cfg.weight_decay}  "
         f"step_size={cfg.step_size}  lr_gamma={cfg.lr_gamma}  "
         f"batch_size={cfg.batch_size}"
     )
@@ -96,6 +98,8 @@ def main() -> None:
     parser.add_argument("--log-interval",  type=int,   default=100)
     parser.add_argument("--limit-batches", type=int,   default=0,
                         help="Stop after N batches per epoch (0 = no limit)")
+    parser.add_argument("--seed",          type=int,   default=42,
+                        help="Random seed for torch.manual_seed")
 
     args = parser.parse_args()
     cfg = TrainConfig(
@@ -109,6 +113,7 @@ def main() -> None:
         dropout=args.dropout,
         log_interval=args.log_interval,
         limit_batches=args.limit_batches,
+        seed=args.seed,
     )
     train(cfg)
 

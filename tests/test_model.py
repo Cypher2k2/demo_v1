@@ -51,6 +51,7 @@ def test_config_defaults(cfg):
     assert cfg.weight_decay == 0.0
     assert cfg.step_size == 2
     assert cfg.lr_gamma == 0.5
+    assert cfg.seed == 42
     assert cfg.epochs == 5
     assert cfg.batch_size == 64
     assert cfg.hidden1 == 256

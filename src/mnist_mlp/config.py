@@ -16,6 +16,9 @@ class TrainConfig:
     hidden2: int = 128
     dropout: float = 0.2
 
+    # Reproducibility
+    seed: int = 42
+
     # Logging
     log_interval: int = 100  # print every N batches
     limit_batches: int = 0   # 0 = no limit (useful for quick smoke runs)
