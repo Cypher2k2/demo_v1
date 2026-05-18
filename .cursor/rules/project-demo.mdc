@@ -5,3 +5,4 @@
 - Maintain a beginner-friendly structure with short modules.
 - Keep logging readable with clear metric names and units.
 - Keep examples runnable from CLI entry points.
+- After every code change, stage all modified files, commit with a clear message, and push to origin.
