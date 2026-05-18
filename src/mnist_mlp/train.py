@@ -21,6 +21,9 @@ def train(cfg: TrainConfig) -> None:
     optimizer = torch.optim.Adam(
         model.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay
     )
+    scheduler = torch.optim.lr_scheduler.StepLR(
+        optimizer, step_size=cfg.step_size, gamma=cfg.lr_gamma
+    )
     criterion = nn.CrossEntropyLoss()
 
     total_batches = (
@@ -31,7 +34,9 @@ def train(cfg: TrainConfig) -> None:
 
     print(
         f"[Train] Starting training for {cfg.epochs} epoch(s)  "
-        f"lr={cfg.lr}  weight_decay={cfg.weight_decay}  batch_size={cfg.batch_size}"
+        f"lr={cfg.lr}  weight_decay={cfg.weight_decay}  "
+        f"step_size={cfg.step_size}  lr_gamma={cfg.lr_gamma}  "
+        f"batch_size={cfg.batch_size}"
     )
 
     for epoch in range(1, cfg.epochs + 1):
@@ -66,10 +71,12 @@ def train(cfg: TrainConfig) -> None:
 
         avg_loss = running_loss / total_batches
         accuracy = correct / total
+        current_lr = optimizer.param_groups[0]["lr"]
         print(
             f"[Epoch {epoch}] avg_loss={avg_loss:.4f}  "
-            f"accuracy={accuracy:.2%}  lr={cfg.lr}"
+            f"accuracy={accuracy:.2%}  lr={current_lr}"
         )
+        scheduler.step()
 
     torch.save(model.state_dict(), cfg.checkpoint_path)
     print(f"[Train] Checkpoint saved to {cfg.checkpoint_path}")
@@ -79,6 +86,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Train MNIST MLP")
     parser.add_argument("--lr",            type=float, default=1e-3)
     parser.add_argument("--weight-decay",  type=float, default=0.0)
+    parser.add_argument("--step-size",     type=int,   default=2,
+                        help="StepLR: halve lr every N epochs")
     parser.add_argument("--epochs",        type=int,   default=5)
     parser.add_argument("--batch-size",    type=int,   default=64)
     parser.add_argument("--hidden1",       type=int,   default=256)
@@ -92,6 +101,7 @@ def main() -> None:
     cfg = TrainConfig(
         lr=args.lr,
         weight_decay=args.weight_decay,
+        step_size=args.step_size,
         epochs=args.epochs,
         batch_size=args.batch_size,
         hidden1=args.hidden1,

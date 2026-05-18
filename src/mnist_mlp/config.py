@@ -6,6 +6,8 @@ class TrainConfig:
     # Optimizer
     lr: float = 1e-3
     weight_decay: float = 0.0
+    step_size: int = 2
+    lr_gamma: float = 0.5
     epochs: int = 5
     batch_size: int = 64
 
