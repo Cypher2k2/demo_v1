@@ -18,7 +18,7 @@ def train(cfg: TrainConfig) -> None:
     train_loader, test_loader = get_dataloaders(cfg)
 
     model = MNISTMLP(cfg).to(device)
-    optimizer = torch.optim.Adam(model.parameters(), lr=cfg.lr)
+    optimizer = torch.optim.Adam(model.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay)
     criterion = nn.CrossEntropyLoss()
 
     total_batches = (
@@ -76,6 +76,7 @@ def train(cfg: TrainConfig) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Train MNIST MLP")
     parser.add_argument("--lr",            type=float, default=1e-3)
+    parser.add_argument("--weight-decay",  type=float, default=0.0)
     parser.add_argument("--epochs",        type=int,   default=5)
     parser.add_argument("--batch-size",    type=int,   default=64)
     parser.add_argument("--hidden1",       type=int,   default=256)
@@ -88,6 +89,7 @@ def main() -> None:
     args = parser.parse_args()
     cfg = TrainConfig(
         lr=args.lr,
+        weight_decay=args.weight_decay,
         epochs=args.epochs,
         batch_size=args.batch_size,
         hidden1=args.hidden1,
