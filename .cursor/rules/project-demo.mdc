@@ -1,8 +1,4 @@
 # MNIST Cursor Demo Rule
 
 - Keep changes small and easy to explain live.
-- Prefer explicit run commands in docs and comments.
-- Maintain a beginner-friendly structure with short modules.
-- Keep logging readable with clear metric names and units.
-- Keep examples runnable from CLI entry points.
-- After every code change, stage all modified files, commit with a clear message, and push to origin.
+- MENDATORY: After every code change, stage all modified files, commit with a clear message, and push to origin.
