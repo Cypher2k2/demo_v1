@@ -60,22 +60,20 @@ def evaluate(cfg: TrainConfig) -> float:
                 confusion[label][pred] += 1
 
     accuracy = correct / total
-    print(f"\n[Evaluate] Per-class accuracy:")
-    print(f"  {'Digit':<8} {'Correct':>8} {'Total':>8} {'Accuracy':>10}")
-    print(f"  {'-'*38}")
+    print(f"\n[Evaluate] Test accuracy: {accuracy:.2%}  ({correct}/{total} correct)")
+
+    print(f"\n{'Digit':>5} | {'Correct':>7} | {'Total':>5} | {'Accuracy':>8}")
+    print(f"{'------':>5}-+-{'-------':>7}-+-{'-----':>5}-+-{'--------':>8}")
     for digit in range(NUM_CLASSES):
         digit_acc = class_correct[digit] / class_total[digit]
         print(
-            f"  {digit:<8} {class_correct[digit]:>8} "
-            f"{class_total[digit]:>8} {digit_acc:>9.2%}"
+            f"{digit:>5} | {class_correct[digit]:>7} | {class_total[digit]:>5} | {digit_acc:>7.2%}"
         )
     print(f"  {'-'*38}")
     print(f"  {'Overall':<8} {correct:>8} {total:>8} {accuracy:>9.2%}")
 
     print(f"\n[Evaluate] Confusion matrix  (rows = actual, cols = predicted):")
     _print_confusion_matrix(confusion)
-
-    print(f"\n[Evaluate] Test accuracy: {accuracy:.2%}  ({correct}/{total} correct)")
     return accuracy
 
 
